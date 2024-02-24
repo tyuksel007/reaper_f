@@ -7,11 +7,11 @@ open System
 open System.Reflection
 
 
-[<assembly: System.Reflection.AssemblyCompanyAttribute("Kucoin")>]
+[<assembly: System.Reflection.AssemblyCompanyAttribute("Indicators")>]
 [<assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")>]
 [<assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")>]
 [<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+080fd40ad59687e084c2db9905ef0c34068ede73")>]
-[<assembly: System.Reflection.AssemblyProductAttribute("Kucoin")>]
-[<assembly: System.Reflection.AssemblyTitleAttribute("Kucoin")>]
+[<assembly: System.Reflection.AssemblyProductAttribute("Indicators")>]
+[<assembly: System.Reflection.AssemblyTitleAttribute("Indicators")>]
 [<assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")>]
 do()

@@ -38,7 +38,7 @@ module MarketDataService =
                 
                 let endTimeValue = match endTime with
                                     | Some et -> et
-                                    | None -> DateTime.Now.ToString("dd-MM-yyyy HH:mm")
+                                    | None -> DateTime.Now.ToString(TimeHelper.timeFormat)
 
                 let from = startTime |> TimeHelper.toUtcEpoch
                 let endOf = endTimeValue |> TimeHelper.toUtcEpoch

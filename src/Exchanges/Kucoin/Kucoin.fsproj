@@ -1,9 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="Types/Credentials.fs" />
     <Compile Include="Types/OrderServiceTypes.fs" />
@@ -13,11 +11,12 @@
     <Compile Include="Utils/TimeHelper.fs" />
     <Compile Include="Services/MarketDataService.fs" />
     <Compile Include="Services/OrderService.fs" />
+    <Compile Include="Broker/Scan.fs" />
+    <Compile Include="Broker/Trade.fs" />
     <Compile Include="Controllers/MarketDataController.fs" />
     <Compile Include="Controllers/OrderController.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Flurl.Http" Version="4.0.2" />
     <PackageReference Include="Serilog" Version="3.1.2-dev-02097" />
@@ -28,5 +27,4 @@
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.1-dev-00972" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
-
 </Project>
