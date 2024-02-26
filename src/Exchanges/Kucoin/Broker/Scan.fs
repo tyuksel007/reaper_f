@@ -6,8 +6,8 @@ module Scan =
 
     let calculateScore (symbol: string) = 
         // get klines
-        //tilson_score: 
-        // bollinger_band_score:
+        //tilson_score: last 3 item delta with original price
+        // bollinger_band_score: 
         // macd_score:
         async{
             let startTime = DateTime.UtcNow.AddHours(-8).ToString(TimeHelper.timeFormat)
