@@ -15,6 +15,7 @@
     <Compile Include="Broker/Trade.fs" />
     <Compile Include="Controllers/MarketDataController.fs" />
     <Compile Include="Controllers/OrderController.fs" />
+    <Compile Include="Controllers/BackTestController.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
@@ -26,5 +27,8 @@
     <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.1-dev-00972" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../Analytics/Analytics.fsproj" />
   </ItemGroup>
 </Project>

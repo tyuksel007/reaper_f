@@ -22,6 +22,8 @@ module Program =
         builder.Services.AddControllers()
         builder.Services.AddSwaggerGen()
 
+        Analytics.Database.Connection.initDb()
+
         let app = builder.Build()
 
         app.UseHttpsRedirection()

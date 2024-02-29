@@ -17,16 +17,7 @@ type ContractApiResponse = {
 }
 
 
-type Kline = {
-    Open: decimal
-    High: decimal
-    Low: decimal
-    Close: decimal
-    Time: int64
-    Volume: decimal
-}
-
-type KlinesApiResponse = {
+type CandlesApiResponse = {
     Code: string
     Data: List<List<decimal>>
 }

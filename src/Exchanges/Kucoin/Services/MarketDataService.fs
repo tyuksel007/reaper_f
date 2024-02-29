@@ -7,6 +7,7 @@ open Kucoin.Types
 open System
 
 module MarketDataService = 
+        open Analytics.Types
 
         let getSymbolPriceAsync (symbol: string) =
             async{
@@ -33,7 +34,7 @@ module MarketDataService =
 
 
 
-        let getKlines(symbol: string) (startTime: string) (endTime: Option<string>) (interval: int) = 
+        let getCandles(symbol: string) (startTime: string) (endTime: Option<string>) (interval: int) = 
             async{
                 
                 let endTimeValue = match endTime with
@@ -55,6 +56,7 @@ module MarketDataService =
                 let request = flurlClient.Request()
                                 .AppendPathSegments("api", "v1", "kline", "query")
                                 .SetQueryParams(queryParams)
+
                 let signedRequest = FlurlHelper.signRequest 
                                         request 
                                         (Credentials.readCredentials())
@@ -62,10 +64,10 @@ module MarketDataService =
                                         (Some "")
                 try
                     let! responseStr = signedRequest.GetStringAsync() |> Async.AwaitTask
-                    let klinesArray = JsonSerializer.Deserialize<KlinesApiResponse>(responseStr,
+                    let CandlesArray = JsonSerializer.Deserialize<CandlesApiResponse>(responseStr,
                             options = new JsonSerializerOptions( PropertyNameCaseInsensitive = true)).Data
-                    let klines: Kline[] =
-                        klinesArray
+                    let Candles: Candle[] =
+                        CandlesArray
                         |> List.map (fun x -> 
                             {
                                 Time = (int64)x[0]
@@ -76,7 +78,7 @@ module MarketDataService =
                                 Volume = x[5]
                             }) 
                             |> List.toArray
-                    return klines
+                    return Candles
                 with
                 | ex -> 
                     printfn "Error: %s" ex.Message

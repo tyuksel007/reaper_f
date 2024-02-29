@@ -16,11 +16,11 @@ type MarketDataController() =
         }
 
 
-    [<HttpGet("klines")>]
-    member _.GetKlines(symbol: string, startTime: string, endTime: string, interval: int) =
+    [<HttpGet("Candles")>]
+    member _.GetCandles(symbol: string, startTime: string, endTime: string, interval: int) =
         async {
-            let! klines = MarketDataService.getKlines symbol startTime (Some endTime) interval
-            return klines
+            let! candles = MarketDataService.getCandles symbol startTime (Some endTime) interval
+            return candles
         }
 
     

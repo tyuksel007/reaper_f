@@ -5,13 +5,13 @@ module Scan =
     open System
 
     let calculateScore (symbol: string) = 
-        // get klines
+        // get Candles
         //tilson_score: last 3 item delta with original price
         // bollinger_band_score: 
         // macd_score:
         async{
             let startTime = DateTime.UtcNow.AddHours(-8).ToString(TimeHelper.timeFormat)
-            let! klines = MarketDataService.getKlines symbol startTime None 5
+            let! candles = MarketDataService.getCandles symbol startTime None 5
             return 0.0
         }
 

@@ -1,0 +1,2 @@
+namespace Analytics.Patterns
+

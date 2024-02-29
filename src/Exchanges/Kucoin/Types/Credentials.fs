@@ -12,6 +12,6 @@ module Credentials =
     }
 
     let readCredentials() : KucoinCredentials =
-        let json = File.ReadAllText("C:\\Users\\tyueksel\Desktop\\f#\Kucoin\\secrets.json")
+        let json = File.ReadAllText("C:\\Users\\tyueksel\\Desktop\\f#\\Qconnect\\secrets.json")
         JsonSerializer.Deserialize<KucoinCredentials>(json)
 

@@ -10,7 +10,7 @@ open System.Reflection
 [<assembly: System.Reflection.AssemblyCompanyAttribute("Kucoin")>]
 [<assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")>]
 [<assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")>]
-[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cedfd8947e11c0d86a989341ca571390df215ee2")>]
+[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ff88ea696120ac4511d651814b1b68464b584ba2")>]
 [<assembly: System.Reflection.AssemblyProductAttribute("Kucoin")>]
 [<assembly: System.Reflection.AssemblyTitleAttribute("Kucoin")>]
 [<assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")>]
