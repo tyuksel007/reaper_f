@@ -1,41 +1,15 @@
-namespace Kucoin.Services
+namespace Binance.Services
 
 module MarketDataService = 
-    open Serilog
+    open FSharp.Control
+    open System
+    open Binance.Utils
     open Flurl.Http
     open System.Text.Json
-    open System
-    open Kucoin.Utils
-    open Kucoin.Types.MarketDataApiNs
-    open FSharp.Control
-
-    let getSymbolPriceAsync (symbol: string) =
-        async{
-
-            use flurlClient = FlurlHelper.getFlurlClient (RLogger.get_default_rlogger()) true
-
-            let request = flurlClient.Request()
-                            .AppendPathSegments("api", "v1", "contracts", symbol.ToUpper())
-            let signedRequest = FlurlHelper.signRequest 
-                                    request 
-                                    (Authorisation.readCredentials())
-                                    "GET"
-                                    (Some "")
-            try
-                let! response = signedRequest.GetStringAsync() |> Async.AwaitTask
-                let symbolData = JsonSerializer.Deserialize<SymbolDetail>(response,
-                        options = new JsonSerializerOptions( PropertyNameCaseInsensitive = true)).Data
-                return symbolData.MarkPrice
-            with
-            | ex -> 
-                printfn "Error: %s" ex.Message
-                return 0M
-        } 
-
+    open Binance.Types.MarketDataApiNs
 
     let private get_200_candles(symbol: string) (from: float) (to_: float) (intervalInMins: int) = 
         async{
-
             let queryParams = [
                 "symbol", symbol
                 "from", from.ToString()
@@ -43,15 +17,15 @@ module MarketDataService =
                 "granularity", intervalInMins.ToString()
             ]
 
-            use flurlClient = FlurlHelper.getFlurlClient (RLogger.get_default_rlogger())  true
+            use flurlClient = FlurlHelper.get_flurl_client (RLogger.get_default_rlogger())  true
 
             let request = flurlClient.Request()
                             .AppendPathSegments("api", "v1", "kline", "query")
                             .SetQueryParams(queryParams)
 
-            let signedRequest = FlurlHelper.signRequest 
+            let signedRequest = FlurlHelper.sign_request 
                                     request 
-                                    (Authorisation.readCredentials())
+                                    (Authorisation.read_credentials())
                                     "GET"
                                     (Some "")
             try
@@ -76,6 +50,7 @@ module MarketDataService =
                 printfn "Error: %s" ex.Message
                 return [||]
         }
+
 
     let get_candles (symbol: string) (startTime: string) (endTime: Option<string>) (interval: int) = 
         asyncSeq{
@@ -102,30 +77,8 @@ module MarketDataService =
                 yield iter_candles
         }
 
+    let get_symbol_price () =
+        ()
 
-
-    let getActiveContracts(): Async<Contract array> = 
-        async{
-            use flurlClient = FlurlHelper.getFlurlClient (RLogger.get_default_rlogger()) true
-
-            let request = flurlClient.Request()
-                            .AppendPathSegments("api", "v1", "contracts", "active")
-
-            let signedRequest = FlurlHelper.signRequest
-                                    request
-                                    (Authorisation.readCredentials())
-                                    "GET"
-                                    (Some "")
-            try
-                use! responseStream = signedRequest.GetStreamAsync() |> Async.AwaitTask
-                let! contracts = 
-                    JsonSerializer.DeserializeAsync<ContractApiResponse>(responseStream,
-                        options = new JsonSerializerOptions (PropertyNameCaseInsensitive = true)).AsTask()
-                    |> Async.AwaitTask
-
-                return contracts.Data |> List.toArray
-            with
-            | ex -> 
-                printfn "Error: %s" ex.Message
-                return [||]
-        }
+    let get_active_contracts () = 
+        ()

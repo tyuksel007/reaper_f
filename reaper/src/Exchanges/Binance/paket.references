@@ -1,0 +1,8 @@
+Flurl.Http
+Serilog
+Serilog.AspNetCore
+Serilog.Extensions.Logging
+Serilog.Settings.Configuration
+Serilog.Sinks.Console
+FSharp.Core
+FSharp.Control.AsyncSeq

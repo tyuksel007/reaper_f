@@ -6,6 +6,9 @@
 # dotenv files
 .env
 
+# secrets
+secrets.json
+
 # User-specific files
 *.rsuser
 *.suo
