@@ -2,6 +2,9 @@ NUGET
   remote: https://api.nuget.org/v3/index.json
     Dapper (2.1.35)
       System.Reflection.Emit.Lightweight (>= 4.7) - restriction: && (< net461) (< net5.0) (>= netstandard2.0)
+    DynamicObj (2.0) - restriction: >= netstandard2.0
+      FSharp.Core (>= 6.0.2) - restriction: >= netstandard2.0
+      Newtonsoft.Json (>= 13.0.1) - restriction: >= netstandard2.0
     Flurl (4.0) - restriction: || (>= net461) (>= netstandard2.0)
       System.ValueTuple (>= 4.5) - restriction: && (>= net461) (< net472)
     Flurl.Http (4.0.2)
@@ -12,6 +15,8 @@ NUGET
       FSharp.Core (>= 4.7.2) - restriction: >= netstandard2.0
       Microsoft.Bcl.AsyncInterfaces (>= 5.0) - restriction: >= netstandard2.0
     FSharp.Core (8.0.200)
+    Giraffe.ViewEngine.StrongName (2.0.0-alpha1) - restriction: >= netstandard2.0
+      FSharp.Core (>= 6.0.7) - restriction: >= netstandard2.0
     MathNet.Numerics (5.0)
       System.ValueTuple (>= 4.4) - restriction: && (>= net461) (< net48)
     Microsoft.AspNetCore.Hosting.Abstractions (2.2) - restriction: || (>= net462) (&& (< net6.0) (>= netstandard2.0))
@@ -109,6 +114,11 @@ NUGET
       System.Runtime.CompilerServices.Unsafe (>= 6.0) - restriction: || (&& (>= net6.0) (< net7.0)) (&& (< net6.0) (>= netstandard2.1)) (&& (>= netstandard2.0) (< netstandard2.1))
       System.Text.Json (>= 8.0) - restriction: || (&& (>= net6.0) (< net7.0)) (&& (< net6.0) (>= netstandard2.1)) (&& (>= netstandard2.0) (< netstandard2.1))
       System.Threading.Channels (>= 8.0) - restriction: || (&& (< net6.0) (>= netstandard2.1)) (&& (>= netstandard2.0) (< netstandard2.1))
+    Plotly.NET (4.2)
+      DynamicObj (>= 2.0) - restriction: >= netstandard2.0
+      FSharp.Core (>= 6.0.7) - restriction: >= netstandard2.0
+      Giraffe.ViewEngine.StrongName (>= 2.0.0-alpha1) - restriction: >= netstandard2.0
+      Newtonsoft.Json (>= 13.0.1) - restriction: >= netstandard2.0
     Serilog (3.1.1)
       System.Diagnostics.DiagnosticSource (>= 7.0.2) - restriction: || (&& (>= net462) (< netstandard2.0)) (&& (< net462) (>= netstandard2.0) (< netstandard2.1)) (>= net471) (&& (< net5.0) (>= netstandard2.1))
       System.ValueTuple (>= 4.5) - restriction: && (>= net462) (< netstandard2.0)

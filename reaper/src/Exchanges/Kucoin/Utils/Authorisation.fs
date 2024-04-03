@@ -11,7 +11,12 @@ module Authorisation =
         ApiPassphrase: string
     }
 
+    type private Credentials = {
+        Kucoin: KucoinCredentials
+    }
+
+
     let readCredentials() : KucoinCredentials =
-        let json = File.ReadAllText("C:\\Users\\tyueksel\\Desktop\\f#\\Qconnect\\secrets.json")
-        JsonSerializer.Deserialize<KucoinCredentials>(json)
+        let json = File.ReadAllText("C:\\Users\\tyueksel\\Desktop\\f#\\reaper_f\\reaper\\secrets.json")
+        JsonSerializer.Deserialize<Credentials>(json).Kucoin
 

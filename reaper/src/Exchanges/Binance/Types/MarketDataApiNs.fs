@@ -26,9 +26,18 @@ module MarketDataApiNs =
     }
 
 
-    type CandlesApiResponse = {
-        Code: string
-        Data: List<List<decimal>>
+    type BinanceCandle = {
+        OpenTime: int64
+        OpenPrice: decimal
+        HighPrice: decimal
+        LowPrice: decimal
+        ClosePrice: decimal
+        Volume: decimal
+        CloseTime: int64
+        QuoteAssetVolume: decimal
+        NumberOfTrades: int
+        TakerBuyBaseAssetVolume: decimal
+        TakerBuyQuoteAssetVolume: decimal
     }
 
 

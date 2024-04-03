@@ -6,3 +6,4 @@ Microsoft.ML.FastTree
 FSharp.Core
 FSharp.Control.AsyncSeq
 Npgsql
+Plotly.NET

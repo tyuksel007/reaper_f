@@ -26,7 +26,7 @@ module MarketDataApiNs =
     }
 
 
-    type CandlesApiResponse = {
+    type KucoinCandles = {
         Code: string
         Data: List<List<decimal>>
     }

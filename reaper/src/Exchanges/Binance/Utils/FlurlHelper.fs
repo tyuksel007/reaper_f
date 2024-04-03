@@ -6,8 +6,11 @@ module FlurlHelper =
     open System.Text.Json
     open System
 
-    let get_flurl_client (logger: ILogger) (enableLogging: bool): IFlurlClient =
-        let flurlClient = new FlurlClient("binance url here")
+    let get_flurl_client (logger: ILogger) (log_enable: bool): IFlurlClient =
+        //todo remove below, use argument
+        let enableLogging = false
+
+        let flurlClient = new FlurlClient("https://api.binance.com")
         
         ignore (flurlClient.BeforeCall(fun call ->
             if enableLogging then
@@ -61,8 +64,8 @@ module FlurlHelper =
         Convert.ToBase64String(hash)
 
     
-    let sign_request (flurlRequest: IFlurlRequest) (binanceCredentials: Authorisation.BinanceCredentials)
-        (method: string) (jsonBody: string option) =
+    let update (flurlRequest: IFlurlRequest) (binanceCredentials: Authorisation.BinanceCredentials) 
+        (method: string) (jsonBody: string option)  (signRequest: bool) =
 
         let jsonValue = match jsonBody with
                         | Some body -> body 
@@ -71,8 +74,6 @@ module FlurlHelper =
         let query = if String.IsNullOrEmpty(flurlRequest.Url.Query) 
                         then "" 
                         else flurlRequest.Url.Query
-
-        let passphraseSignature = "check docs................................................"
 
         let timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString()
 
@@ -83,12 +84,19 @@ module FlurlHelper =
 
         let signature = create_signature strToSign binanceCredentials.ApiSecret
 
-        flurlRequest
-            .SetQueryParams([
-                "timeInForce", "GTC"
-                "timestamp", timestamp
-                "signature", signature
-            ])
-            .WithHeader("X-MBX-APIKEY", binanceCredentials.ApiKey)
-            .WithHeader("Content-Type", "application/json")
-            .WithHeader("Accept", "application/json")
+
+        if signRequest then
+            flurlRequest
+                .WithHeader("X-MBX-APIKEY", binanceCredentials.ApiKey)
+                .WithHeader("Content-Type", "application/json")
+                .WithHeader("Accept", "application/json")
+                .SetQueryParams([
+                    "timeInForce", "GTC"
+                    "timestamp", timestamp
+                    "signature", signature
+                ])
+        else 
+            flurlRequest
+                .WithHeader("X-MBX-APIKEY", binanceCredentials.ApiKey)
+                .WithHeader("Content-Type", "application/json")
+                .WithHeader("Accept", "application/json")

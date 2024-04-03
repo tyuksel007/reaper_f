@@ -56,7 +56,7 @@ module MarketDataService =
                                     (Some "")
             try
                 let! responseStr = signedRequest.GetStringAsync() |> Async.AwaitTask
-                let CandlesArray = JsonSerializer.Deserialize<CandlesApiResponse>(responseStr,
+                let CandlesArray = JsonSerializer.Deserialize<KucoinCandles>(responseStr,
                         options = new JsonSerializerOptions( PropertyNameCaseInsensitive = true)).Data
                 let Candles: Candle[] =
                     CandlesArray
@@ -90,14 +90,10 @@ module MarketDataService =
             let total_num_of_candles = (to_ - from) / 1000.0 / 60.0 / float interval
             let count_of_iteration = int (ceil total_num_of_candles / 200.0)
             
-            printfn $"startTime: {startTime}"
-            printfn $"endTime: {endTime}"
             for i = 0 to count_of_iteration do
                 let next_to = min (from + (200.0 * float interval) * 1000.0 * 60.0) to_
-                printfn $"""requesting from {int64 from |> TimeHelper.utcToLocalTime} 
-                        to {int64 next_to |> TimeHelper.utcToLocalTime}"""
-                
                 let! iter_candles = get_200_candles symbol from next_to interval
+
                 from <- next_to
                 yield iter_candles
         }

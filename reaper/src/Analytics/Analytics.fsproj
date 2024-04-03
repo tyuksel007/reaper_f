@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../Exchanges/Kucoin/Kucoin.fsproj" />
+    <ProjectReference Include="../Exchanges/Binance/Binance.fsproj" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

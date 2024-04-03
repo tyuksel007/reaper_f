@@ -7,50 +7,76 @@ module MarketDataService =
     open Flurl.Http
     open System.Text.Json
     open Binance.Types.MarketDataApiNs
+    let parseBinanceCandle (jsonElement: JsonElement): BinanceCandle =
+        let array = jsonElement.EnumerateArray() |> Seq.toArray
+        {
+            OpenTime = array.[0].GetInt64()
+            OpenPrice = decimal (array.[1].GetString())
+            HighPrice = decimal (array.[2].GetString())
+            LowPrice = decimal (array.[3].GetString())
+            ClosePrice = decimal (array.[4].GetString())
+            Volume = decimal (array.[5].GetString())
+            CloseTime = array.[6].GetInt64()
+            QuoteAssetVolume = decimal (array.[7].GetString())
+            NumberOfTrades = array.[8].GetInt32()
+            TakerBuyBaseAssetVolume = decimal (array.[9].GetString())
+            TakerBuyQuoteAssetVolume = decimal (array.[10].GetString())
+        }
 
-    let private get_200_candles(symbol: string) (from: float) (to_: float) (intervalInMins: int) = 
+
+    let private get_200_candles(symbol: string) (from: float) (to_: float) (interval: string) = 
         async{
             let queryParams = [
                 "symbol", symbol
-                "from", from.ToString()
-                "to", to_.ToString()
-                "granularity", intervalInMins.ToString()
+                "startTime", from.ToString()
+                "endTime", to_.ToString()
+                "limit", "200"
+                "interval", interval
             ]
 
             use flurlClient = FlurlHelper.get_flurl_client (RLogger.get_default_rlogger())  true
 
             let request = flurlClient.Request()
-                            .AppendPathSegments("api", "v1", "kline", "query")
+                            .AppendPathSegments("api", "v3", "klines")
                             .SetQueryParams(queryParams)
 
-            let signedRequest = FlurlHelper.sign_request 
+            let updated_request = FlurlHelper.update 
                                     request 
                                     (Authorisation.read_credentials())
                                     "GET"
                                     (Some "")
+                                    false
+                                    
             try
-                let! responseStr = signedRequest.GetStringAsync() |> Async.AwaitTask
-                let CandlesArray = JsonSerializer.Deserialize<CandlesApiResponse>(responseStr,
-                        options = new JsonSerializerOptions( PropertyNameCaseInsensitive = true)).Data
-                let Candles: Candle[] =
-                    CandlesArray
-                    |> List.map (fun x -> 
-                        {
-                            Time = (int64)x[0]
-                            Open = x[1]
-                            High = x[2]
-                            Low = x[3]
-                            Close = x[4]
-                            Volume = x[5]
-                        }) 
-                        |> List.toArray
-                return Candles
+                let! responseStr = updated_request.GetStringAsync() |> Async.AwaitTask
+
+                return JsonDocument.Parse(responseStr).RootElement.EnumerateArray()
+                    |> Seq.map parseBinanceCandle
+                    |> Seq.toArray
             with
             | ex -> 
                 printfn "Error: %s" ex.Message
                 return [||]
         }
 
+
+    let transform_interval (intervalInMins: int) =
+        match intervalInMins with
+        | 1 -> "1m"
+        | 3 -> "3m"
+        | 5 -> "5m"
+        | 15 -> "15m"
+        | 30 -> "30m"
+        | 60 -> "1h"
+        | 120 -> "2h"
+        | 240 -> "4h"
+        | 360 -> "6h"
+        | 480 -> "8h"
+        | 720 -> "12h"
+        | 1440 -> "1d"
+        | 10080 -> "1w"
+        | 43200 -> "1M"
+        | _ -> "1m"
 
     let get_candles (symbol: string) (startTime: string) (endTime: Option<string>) (interval: int) = 
         asyncSeq{
@@ -65,14 +91,10 @@ module MarketDataService =
             let total_num_of_candles = (to_ - from) / 1000.0 / 60.0 / float interval
             let count_of_iteration = int (ceil total_num_of_candles / 200.0)
             
-            printfn $"startTime: {startTime}"
-            printfn $"endTime: {endTime}"
             for i = 0 to count_of_iteration do
                 let next_to = min (from + (200.0 * float interval) * 1000.0 * 60.0) to_
-                printfn $"""requesting from {int64 from |> TimeHelper.utcToLocalTime} 
-                        to {int64 next_to |> TimeHelper.utcToLocalTime}"""
                 
-                let! iter_candles = get_200_candles symbol from next_to interval
+                let! iter_candles = get_200_candles symbol from next_to (transform_interval interval)
                 from <- next_to
                 yield iter_candles
         }
