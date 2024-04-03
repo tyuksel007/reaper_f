@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Types/MarketNs.fs" />
+    <Compile Include="Types/AnalysisNs.fs" />
+    <Compile Include="Types/TradeNs.fs" />
+    <Compile Include="TimeUtils.fs" />
+    <Compile Include="TradeSimulation.fs" />
+    <Compile Include="Database/Connection.fs" />
+    <Compile Include="Database/CandleOps.fs" />
+    <Compile Include="Indicators/MovingAvg.fs" />
+    <Compile Include="Indicators/Macd.fs" />
+    <Compile Include="Indicators/Tilson/Tilson.fs" />
+    <Compile Include="Indicators/Bollinger/BollingerBands.fs" />
+    <Compile Include="Patterns/_logger.fs" />
+    <Compile Include="Patterns/Broadening/Types.fs" />
+    <Compile Include="Patterns/Broadening/DbOps.fs" />
+    <Compile Include="Patterns/Broadening/Bottoms.fs" />
+    <Compile Include="Patterns/Broadening/Tops.fs" />
+    <Compile Include="Patterns/Diamond/Bottoms.fs" />
+    <Compile Include="Patterns/Diamond/Tops.fs" />
+    <Compile Include="Patterns/DoubleBottoms/Adam_Adam.fs" />
+    <Compile Include="Patterns/DoubleBottoms/Adam_Eve.fs" />
+    <Compile Include="Patterns/DoubleBottoms/Eve_Adam.fs" />
+    <Compile Include="Patterns/DoubleBottoms/Eve_Eve.fs" />
+    <Compile Include="Patterns/DoubleTops/Adam_Adam.fs" />
+    <Compile Include="Patterns/DoubleTops/Adam_Eve.fs" />
+    <Compile Include="Patterns/DoubleTops/Eve_Adam.fs" />
+    <Compile Include="Patterns/DoubleTops/Eve_Eve.fs" />
+    <Compile Include="Patterns/Head_Shoulders/DownTrend.fs" />
+    <Compile Include="Patterns/Head_Shoulders/UpTrend.fs" />
+    <Compile Include="Patterns/Rectangle/Bottoms.fs" />
+    <Compile Include="Patterns/Rectangle/Tops.fs" />
+    <Compile Include="Patterns/Scallops/Ascending.fs" />
+    <Compile Include="Patterns/Scallops/Descending.fs" />
+    <Compile Include="Patterns/Tripple/Bottoms.fs" />
+    <Compile Include="Patterns/Tripple/Tops.fs" />
+    <Compile Include="Prediction/MlModel.fs" />
+    <Compile Include="PatternScanner.fs" />
+    <Compile Include="MarkovChain.fs" />
+    <Compile Include="Volatility/SVM.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Exchanges/Kucoin/Kucoin.fsproj" />
+  </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>

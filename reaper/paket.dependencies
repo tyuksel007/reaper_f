@@ -1,0 +1,22 @@
+source "C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\"
+source C:\Users\tyueksel\Desktop\Reaper_\reaper\Reaper\localNugetStore
+source https://api.nuget.org/v3/index.json
+
+nuget FSharp.Core
+
+//Exchanges
+nuget Flurl.Http 
+nuget Serilog 
+nuget Serilog.AspNetCore 
+nuget Serilog.Extensions.Logging 
+nuget Serilog.Settings.Configuration 
+nuget Serilog.Sinks.Console 
+nuget FSharp.Control.AsyncSeq
+
+//Analytics
+nuget Dapper 
+nuget MathNet.Numerics 
+nuget Microsoft.ML 
+nuget Microsoft.ML.DataView 
+nuget Microsoft.ML.FastTree 
+nuget Npgsql

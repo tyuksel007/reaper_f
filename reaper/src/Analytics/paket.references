@@ -1,0 +1,8 @@
+Dapper
+MathNet.Numerics
+Microsoft.ML
+Microsoft.ML.DataView
+Microsoft.ML.FastTree
+FSharp.Core
+FSharp.Control.AsyncSeq
+Npgsql

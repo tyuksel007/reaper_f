@@ -1,0 +1,57 @@
+trade_signal_ml_model:
+	collect candles save to db
+	read candles from db
+	run each pattern logic against candles save each pattern result to db
+	
+	analysis:
+		read candles and pattern statistics(pattern profit score)
+		try find a set of successful patterns works together(imagine when 3 pattern earn well we want them in the set))
+		(may be 2 pattern do well and one do worse but all together those signal produce profit)
+		format of data from db:
+			features(symbol_name, open, close, high, low, volume, time, pattern_name), label(pattern_profit_rate)
+			
+			
+	
+
+f# notebook:
+	define candle data
+	collect candle data
+	implement indicators(tilson, bollinger, macd etc.)
+	implement patterns(broadening, double bottom, triangel head and shoulders etc)
+	analse patterns and indicators detect breakouts and trend generate tradeing signals
+	simulate trade by generate signal of each pattern/indicator and save results to candle data file
+	results are basically includeing indicator/pattern name, along with profit rate in percentage can be negative or positive
+	
+	analyse data:
+		define ml.net processing pipeline
+		train data
+		test data
+		evauluate score
+		generate model
+		use for trade signals
+		
+		
+	db_data_stucture:
+		candles_table: symbol, interval, open, close, high, low, time, volume
+			primary_key: (symbol, interval, time)
+
+		patterns tables (patternx, patterny ....):
+			=> profit_rate
+			=> foreign_key called candle_ref: reference to candles_table primary_key
+        indicators tables (indicatorx, indicatory ....):
+			=> profit_rate
+			=> foreign_key called candle_ref: reference to candles_table primary_key
+
+        an intermediate table called patterns_and_indicators to be used for iteration over patterns/indicators for data analysis
+			primary_key: name of the pattern
+			(save each new pattern/indicator table name here)        
+    
+    nuget_packer:
+        for polygot notebooks
+
+
+
+patterns-structure:
+	pattern logic
+	iterate over candles and simulate trade with given pattern_stats
+	db ops (read_candles, save_pattern_stats, save_trade_results)

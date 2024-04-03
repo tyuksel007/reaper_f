@@ -1,0 +1,15 @@
+namespace PaketLoadScripts
+
+#load "Microsoft.AspNetCore.Hosting.Abstractions.fsx" 
+#load "Microsoft.AspNetCore.Http.Abstractions.fsx" 
+#load "Microsoft.Extensions.DependencyInjection.fsx" 
+#load "Microsoft.Extensions.Logging.fsx" 
+#load "Serilog.fsx" 
+#load "Serilog.Extensions.Hosting.fsx" 
+#load "Serilog.Extensions.Logging.fsx" 
+#load "Serilog.Formatting.Compact.fsx" 
+#load "Serilog.Settings.Configuration.fsx" 
+#load "Serilog.Sinks.Console.fsx" 
+#load "Serilog.Sinks.Debug.fsx" 
+#load "Serilog.Sinks.File.fsx" 
+#r "../../../packages/Serilog.AspNetCore/lib/net8.0/Serilog.AspNetCore.dll" 

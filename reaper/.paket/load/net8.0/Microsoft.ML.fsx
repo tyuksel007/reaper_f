@@ -1,0 +1,16 @@
+namespace PaketLoadScripts
+
+#load "Microsoft.ML.CpuMath.fsx" 
+#load "Microsoft.ML.DataView.fsx" 
+#load "Newtonsoft.Json.fsx" 
+#load "System.CodeDom.fsx" 
+#load "System.Collections.Immutable.fsx" 
+#load "System.Memory.fsx" 
+#load "System.Threading.Channels.fsx" 
+#r "../../../packages/Microsoft.ML/lib/netstandard2.0/Microsoft.ML.Core.dll" 
+#r "../../../packages/Microsoft.ML/lib/netstandard2.0/Microsoft.ML.dll" 
+#r "../../../packages/Microsoft.ML/lib/netstandard2.0/Microsoft.ML.Data.dll" 
+#r "../../../packages/Microsoft.ML/lib/netstandard2.0/Microsoft.ML.Transforms.dll" 
+#r "../../../packages/Microsoft.ML/lib/netstandard2.0/Microsoft.ML.StandardTrainers.dll" 
+#r "../../../packages/Microsoft.ML/lib/netstandard2.0/Microsoft.ML.PCA.dll" 
+#r "../../../packages/Microsoft.ML/lib/netstandard2.0/Microsoft.ML.KMeansClustering.dll" 

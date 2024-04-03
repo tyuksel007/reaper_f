@@ -1,0 +1,42 @@
+<mxfile host="app.diagrams.net" modified="2024-03-22T08:51:21.095Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36" etag="C5Vvz_-g0Q2WrEQNw9xf" version="24.0.2" type="device">
+  <diagram name="Page-1" id="iMnsrJFrNs05w22LsEYu">
+    <mxGraphModel dx="1050" dy="565" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Xx6zX6N4MOmruxx9ZCxy-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Xx6zX6N4MOmruxx9ZCxy-1" target="Xx6zX6N4MOmruxx9ZCxy-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Xx6zX6N4MOmruxx9ZCxy-1" value="Analytics" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="380" y="130" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Xx6zX6N4MOmruxx9ZCxy-2" value="Exchanges" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="130" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Xx6zX6N4MOmruxx9ZCxy-3" value="Db" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="10" y="350" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Xx6zX6N4MOmruxx9ZCxy-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="Xx6zX6N4MOmruxx9ZCxy-4" target="Xx6zX6N4MOmruxx9ZCxy-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="410" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Xx6zX6N4MOmruxx9ZCxy-4" value="&lt;div&gt;client&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="20" y="130" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Xx6zX6N4MOmruxx9ZCxy-6" value="binance/scan" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="195" y="130" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Xx6zX6N4MOmruxx9ZCxy-7" value="gets symbols" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="640" y="210" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Xx6zX6N4MOmruxx9ZCxy-8" value="gets cancdle data" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="640" y="240" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Xx6zX6N4MOmruxx9ZCxy-9" value="analyse_patterns for symbol" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="430" y="430" width="170" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

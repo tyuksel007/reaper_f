@@ -1,0 +1,5 @@
+simple-take-profit:
+	put limit order at current market price + %1
+	wait until order placed
+	put limit order at entry_price + 10%
+	

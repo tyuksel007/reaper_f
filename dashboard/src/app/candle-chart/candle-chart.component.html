@@ -1,0 +1,12 @@
+<p>candle-chart works!</p>
+
+<div>
+  <select [(ngModel)]="selectedExchange">
+    <option value="" disabled selected>Select your exchange</option>
+    <option value="binance">Binance</option>
+    <option value="kucoin">KuCoin</option>
+    <option value="mexc">MEXC</option>
+  </select>
+  
+  <button (click)="scan()">Scan</button>
+</div>

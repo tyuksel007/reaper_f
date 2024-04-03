@@ -1,0 +1,193 @@
+todo:
+    ascending-descending triangle
+    harrami-cross
+    engulfing pattern
+    three white soldiers
+
+discovery service:
+    scan symbols
+    get candles
+    calculate indicators
+    score with set of indicators
+    get top 3 scored symbol
+
+trade:
+    get top 3 scored symbols delivered from discovery service
+    calculate take-profit/stop-loss
+    start trading
+    exit strategy:
+        defensive stop-loss(while earning put stop-loss at lower point, not-losing is priority)
+        set timeout 
+
+event-loop:
+    discovery
+    trade
+
+
+
+
+
+analysis of patterns:
+    new f# project => PatternAnalytics
+    PatternAnalytics:
+        collect chart data:
+            uses discovery service to collect data
+        simulates trade with patterns and score profti-loss ratio
+
+    
+ Thomas Bulkowski
+
+Broadening bottoms
+Broadening tops
+Diamond bottoms
+Diamond tops
+Double bottoms, Adam & Adam
+Double bottoms, Adam & Eve
+Double bottoms, Eve & Adam
+Double bottoms, Eve & Eve
+Double tops, Adam & Adam
+Double tops, Adam & Eve
+Double tops, Eve & Adam
+Double tops, Eve & Eve
+Head-and-shoulders bottoms
+Head-and-shoulders tops
+Rectangle bottoms
+Rectangle tops
+Scallops, ascending
+Scallops, descending
+Triangles, ascending
+Triangles, descending
+Triangles, symmetrical
+Triple bottoms
+Triple tops
+
+
+
+
+backtest-controller:
+    params:
+        symbol
+        pattern/indicator
+        from
+        to
+    get candles from market-data-service
+    pass candles to analytics
+
+
+
+
+analytics:
+    chart channel lines chunks:
+        chunk pivots
+        collect channel for each chunk
+        after having n channels
+        have fun channelValue (i: int)
+        call at writeline file
+
+
+
+broadening_bottom:
+    define a period
+    get high points
+    get lows points
+    at least 2 high and low
+
+        have regression_high
+        have regression_low
+        if current candle and previouse candle  
+            any close
+                enter long:
+                    enter_price = current_close + (current_close * 0.001)
+                    target_profit = entry_price + (upper_line - lower_line) 
+                    stop_loss = entry_price - (upper_line - lower_line)
+    
+
+
+scanning:
+    save candles to db
+    run every pattern
+    signal when match
+
+
+
+let patterns = [
+    "BroadeningBottoms"
+    "BroadeningTops"
+    "HeadAndShoulders"
+    "InverseHeadAndShoulders"
+    "DoubleBottoms"
+    "DoubleTops"
+    "TripleBottoms"
+    "TripleTops"
+    "Flags"
+    "Pennants"
+    "Triangles"
+    "Rectangles"
+    "Wedges"
+    "CupAndHandle"
+    "RoundingBottoms"
+    "RoundingTops"
+    "Diamonds"
+    "BumpAndRun"
+    "Gaps"
+    "Islands"
+    "ThreeLineStrike"
+    "ThreeBlackCrows"
+    "ThreeWhiteSoldiers"
+    "EveningStar"
+    "MorningStar"
+    "DarkCloudCover"
+    "PiercingLine"
+    "Hammer"
+    "HangingMan"
+    "ShootingStar"
+    "Engulfing"
+    "Doji"
+    "SpinningTop"
+    "Marubozu"
+    "Harami"
+    "Kicker"
+    "AbandonedBaby"
+    "MorningDojiStar"
+    "EveningDojiStar"
+    "ThreeInsideUp"
+    "ThreeInsideDown"
+    "ThreeOutsideUp"
+    "ThreeOutsideDown"
+    "ThreeGapUps"
+    "ThreeGapDowns"
+    "ThreeWhiteCrows"
+    "ThreeBlackSoldiers"
+    "ThreeStarsInSouth"
+    "ThreeStarsInNorth"
+    "ThreeRiverBottom"
+    "ThreeRiverTop"
+    "ThreeMountains"
+    "ThreeValleys"
+    "ThreeMethods"
+    "ThreeContinuation"
+    "ThreeReversal"
+    "ThreeBreakaway"
+    "ThreeCounter"
+    "ThreeSeparating"
+    "ThreeThrusting"
+    "ThreeMatHold"
+    "ThreeDownsideGapThreeMethods"
+    "ThreeUpsideGapThreeMethods"
+    "ThreeDownsideGapTwoCrows"
+    "ThreeUpsideGapTwoCrows"
+    "ThreeDownsideGapThreeCrows"
+    "ThreeUpsideGapThreeCrows"
+    "ThreeDownsideGapBreakaway"
+    "ThreeUpsideGapBreakaway"
+    "ThreeDownsideGapCounter"
+    "ThreeUpsideGapCounter"
+    "ThreeDownsideGapSeparating"
+    "ThreeUpsideGapSeparating"
+    "ThreeDownsideGapThrusting"
+    "ThreeUpsideGap"]
+
+
+
+docker run --name reaper-postgres -e POSTGRES_PASSWORD=123456a -d -p 5432:5432 postgres
+
