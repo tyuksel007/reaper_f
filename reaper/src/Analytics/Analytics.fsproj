@@ -12,6 +12,7 @@
     <Compile Include="TradeSimulation.fs" />
     <Compile Include="Database/Connection.fs" />
     <Compile Include="Database/CandleOps.fs" />
+    <Compile Include="Database/AnalysisOps.fs" />
     <Compile Include="Indicators/MovingAvg.fs" />
     <Compile Include="Indicators/Macd.fs" />
     <Compile Include="Indicators/Tilson/Tilson.fs" />

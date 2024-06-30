@@ -9,6 +9,7 @@ module Broadening_Bottoms =
     open Analytics
     open FSharp.Control
 
+
     let private linear_regression (xValues: float[]) (yValues: float[]) : RegressionValues =
         let struct (intercept, slope)  = Fit.Line(xValues, yValues)
         let rSquared = GoodnessOfFit.RSquared(
@@ -54,7 +55,7 @@ module Broadening_Bottoms =
         let yValues = lowPoints |> Array.map (fun x -> float x.Low)
         linear_regression xValues yValues
 
-    let fit_into line value = line.Intercept + line.Slope * value
+    let fit_to_line line value = line.Intercept + line.Slope * value
 
 
     let private is_delta_increasing (chunk: Candle array) (upper_line: RegressionValues) (lower_line: RegressionValues) = 
@@ -65,11 +66,11 @@ module Broadening_Bottoms =
             let current = chunk.[i]
             let prev = chunk.[i-1]
 
-            let current_upper = fit_into upper_line (float current.Time)
-            let prev_upper = fit_into upper_line (float prev.Time)
+            let current_upper = fit_to_line upper_line (float current.Time)
+            let prev_upper = fit_to_line upper_line (float prev.Time)
 
-            let current_lower = fit_into lower_line (float current.Time)
-            let prev_lower = fit_into lower_line (float prev.Time)
+            let current_lower = fit_to_line lower_line (float current.Time)
+            let prev_lower = fit_to_line lower_line (float prev.Time)
 
             if current_upper > prev_upper && current_lower < prev_lower then
                 delta_arr[i] <- true
@@ -90,11 +91,11 @@ module Broadening_Bottoms =
 
         let last = chunk.Length - 1
         let secon_from_last = chunk.Length - 2
-        let buy_signal = float (chunk.[last].Close) > fit_into upper_line (float chunk.[last].Time)
-                                && float (chunk.[secon_from_last].Close) > fit_into upper_line (float chunk.[secon_from_last].Time)
+        let buy_signal = float (chunk.[last].Close) > fit_to_line upper_line (float chunk.[last].Time)
+                                && float (chunk.[secon_from_last].Close) > fit_to_line upper_line (float chunk.[secon_from_last].Time)
 
-        let profit_delta = fit_into upper_line (float chunk.[last].Time) 
-                                - fit_into lower_line (float chunk.[last].Time)
+        let profit_delta = fit_to_line upper_line (float chunk.[last].Time) 
+                                - fit_to_line lower_line (float chunk.[last].Time)
 
         if is_expanding && buy_signal then
             {
@@ -120,22 +121,8 @@ module Broadening_Bottoms =
             }
 
 
-    let read_by_chunk (contract: Contract) (intervalInMins: int) =
-        asyncSeq{
-            let count_of_records = 1000// todo: get from db
-            let chunkSize = 200
-            let jump = count_of_records / chunkSize
-
-            let mutable start = 0L//todod: first record.Time from db
-            for i = 0 to jump do
-                let end_ = start + int64((i+1) * chunkSize)
-                let candles = Database.CandleOps.read_candles contract.Symbol intervalInMins start end_
-                start <- end_
-
-                yield candles
-        }
     
-    let run_analysis (contract: Contract) (interval: int) = 
+    let run_analysis (contract: Contract) (interval: int) (from: int64 option) (to_: int64 option) = 
         let analyse_fn (candles: Candle array) = 
             let chunkSize = 10
             let start = 10
@@ -143,30 +130,36 @@ module Broadening_Bottoms =
                 |> Array.mapi (fun i  _ -> 
 
                     let chunk = candles.[i-chunkSize..i]
-                    let upper_line = get_high_points chunk |> upper_line
-                    let lower_line = get_low_points chunk |> lower_line
+
+                    let high_points = get_high_points chunk
+                    let low_points = get_low_points chunk
+
+                    let upper_line = high_points |> upper_line
+                    let lower_line = low_points |> lower_line
 
                     let result = find_breakout chunk interval contract upper_line lower_line
-                    result
+                    { 
+                        Order = result; 
+                        HighPoints = high_points; 
+                        LowPoints = low_points; 
+                        LowerLine = lower_line;
+                        UpperLine = upper_line
+                    }: AnalysisResult
                 ) 
-                |> Array.filter (fun x -> x.Signal <> nameof SignalType.SignalUndefined)
+                // |> Array.filter (fun x -> x.Signal <> nameof SignalType.SignalUndefined)
 
-        let candles_seq = read_by_chunk contract interval 
 
-        candles_seq 
-            |> AsyncSeq.map(fun candles -> 
-                let orders = 
-                    candles
-                        |> Array.ofSeq
-                        |> Array.map(fun (entity : Database.CandleOps.CandleEntity)->
-                        {
-                            Time = entity.Time
-                            Close = entity.Close
-                            Open = entity.Open
-                            High = entity.High
-                            Low = entity.Low
-                            Volume = entity.Volume
-                        }) 
-                        |> analyse_fn
-                orders
+        let candles_seq = 
+            Database.CandleOps.read_candles 
+                contract.Symbol 
+                interval 
+                from
+                to_
+
+        let res = 
+            candles_seq 
+            |> AsyncSeq.map(fun candles_ -> 
+                candles_
+                |> analyse_fn
             )
+        res

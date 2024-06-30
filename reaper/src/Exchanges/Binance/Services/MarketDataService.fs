@@ -74,11 +74,16 @@ module MarketDataService =
         | 480 -> "8h"
         | 720 -> "12h"
         | 1440 -> "1d"
+        | 4320 -> "3d"
         | 10080 -> "1w"
         | 43200 -> "1M"
-        | _ -> "1m"
+        | _ -> 
+            printfn "Invalid interval, using 1m"
+            "1m"
 
-    let get_candles (symbol: string) (startTime: string) (endTime: Option<string>) (interval: int) = 
+
+
+    let get_candles (symbol: string) (startTime: string) (endTime: Option<string>) (interval_in_mins: int) = 
         asyncSeq{
             let endTimeValue = match endTime with
                                 | Some et -> et
@@ -87,14 +92,16 @@ module MarketDataService =
             let mutable from = startTime |> TimeHelper.toUtcEpoch
             let to_ = endTimeValue |> TimeHelper.toUtcEpoch
 
-
-            let total_num_of_candles = (to_ - from) / 1000.0 / 60.0 / float interval
-            let count_of_iteration = int (ceil total_num_of_candles / 200.0)
+            let chunk_size = 200
+            let delta_in_minutes = (to_ - from) / 1000.0 / 60.0
+            let total_num_of_candles = delta_in_minutes / float interval_in_mins
+            let count_of_iteration = int (ceil total_num_of_candles / float chunk_size)
             
             for i = 0 to count_of_iteration do
-                let next_to = min (from + (200.0 * float interval) * 1000.0 * 60.0) to_
+                let next_to = from + (float chunk_size * float interval_in_mins) * 1000.0 * 60.0
+                let next= min next_to to_
                 
-                let! iter_candles = get_200_candles symbol from next_to (transform_interval interval)
+                let! iter_candles = get_200_candles symbol from next (transform_interval interval_in_mins)
                 from <- next_to
                 yield iter_candles
         }

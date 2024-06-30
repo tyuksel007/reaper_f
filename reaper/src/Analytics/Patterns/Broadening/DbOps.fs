@@ -8,7 +8,7 @@ module DbOps =
 
     let TABLE_NAME = "broadening_bottoms"
 
-    let private try_create_table (connection: IDbConnection) = 
+    let private try_create_table (connection: IDbConnection) = async {
         let createQuery = $"""create table if not exists {TABLE_NAME} (Symbol varchar(50),
                 IntervalInMins int,
                 Time datetime, 
@@ -23,23 +23,33 @@ module DbOps =
                 """
         connection.Execute(createQuery) |> ignore
         ()
+    }
 
-    let insert_broadeningDto (data: BroadeningBottomEntity) = 
-        Analytics.Database.Connection.execute_db_operation try_create_table 
+    let insert_broadeningDto (data: BroadeningBottomEntity) = async {
+        do! Analytics.Database.Connection.execute_db_operation try_create_table 
 
-        let save_operation (connection: IDbConnection) =
+        let save_operation (connection: IDbConnection) = async {
             let saveQuery = $"""insert into {TABLE_NAME} 
                         (Symbol, IntervalInMins, Time, PivotType, PivotPrice, ChannelLow, ChannelHigh, BreakoutSignal, TradeCapital) 
                         values 
                         (@Symbol, @IntervalInMins, @Time, @PivotType, @PivotPrice, @ChannelLow, @ChannelHigh, @BreakoutSignal, @TradeCapital)
                     """//to be continued
-            connection.Execute(saveQuery, data) |> ignore
+            connection.ExecuteAsync(saveQuery, data)
+            |> Async.AwaitTask
+            |> Async.RunSynchronously
+            |> ignore
+        }
 
-        Analytics.Database.Connection.execute_db_operation save_operation
+        do! Analytics.Database.Connection.execute_db_operation save_operation
+    }
 
     let read_broadeningDto () = 
-        let read_operation (connection: IDbConnection) =
+        let read_operation (connection: IDbConnection) = async {
             let readQuery = $"select * from {TABLE_NAME}"
-            connection.Query<BroadeningBottomEntity>(readQuery) |> Seq.toArray 
+            return connection.QueryAsync<BroadeningBottomEntity>(readQuery)
+            |> Async.AwaitTask
+            |> Async.RunSynchronously
+            |> Array.ofSeq
+        }
 
         Analytics.Database.Connection.execute_db_operation read_operation

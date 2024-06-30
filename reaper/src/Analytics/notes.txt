@@ -191,3 +191,9 @@ let patterns = [
 
 docker run --name reaper-postgres -e POSTGRES_PASSWORD=123456a -d -p 5432:5432 postgres
 
+
+
+
+/scripts:
+    prepare_data.fsx
+    graph.fsx

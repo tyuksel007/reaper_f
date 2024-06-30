@@ -9,10 +9,11 @@ module Connection =
         ()
 
 
-    let execute_db_operation operation =
+    let execute_db_operation (operation: NpgsqlConnection -> Async<'T>) = async {
         use connection = new NpgsqlConnection(connString)
         connection.Open()
-        operation connection
+        return! operation connection
+    }
 
 
 

@@ -2,6 +2,7 @@ namespace Analytics.Types
 
 module AnalysisNs = 
     open System
+    open MarketNs
 
     [<Struct>]
     type PivotType = 
@@ -36,4 +37,11 @@ module AnalysisNs =
         StopLoss: decimal
     }
     
+    type AnalysisResult = {
+        Order: PatternOrder 
+        LowerLine: RegressionValues
+        UpperLine: RegressionValues
+        LowPoints: Candle array
+        HighPoints: Candle array
+    }
     

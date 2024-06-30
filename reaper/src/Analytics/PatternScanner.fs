@@ -33,28 +33,29 @@ module PatternScanner =
 
 
     let do_pattern_analysis (contract: Contract) (candles: Candle array) (interval: int) =
-        async {
-            do Database.CandleOps.save_candles 
-                contract.Symbol
-                interval
-                candles
+        ()
+        // async {
+            // do! Database.CandleOps.save_candles 
+            //     contract.Symbol
+            //     interval
+            //     candles
                 
-            [|
-                Patterns.Broadening_Bottoms.run_analysis
-                Patterns.Broadening_Tops.run_analysis
-            |]
-                |> Array.map (fun pattern_fn -> async {
-                    do! pattern_fn contract interval
-                        |> AsyncSeq.iterAsync (fun orders -> 
-                            async {
-                                for order in orders  do
-                                    do! save_pattern_order order
-                                    do! signal_via_telegram order
-                            } 
-                        ) 
-                })
-                |> Async.Parallel 
-                |> ignore
-        }
+            // [|
+            //     Patterns.Broadening_Bottoms.run_analysis
+            //     // Patterns.Broadening_Tops.run_analysis
+            // |]
+            //     |> Array.map (fun pattern_fn -> async {
+            //         do! pattern_fn contract interval
+            //             |> AsyncSeq.iterAsync (fun analysises -> 
+            //                 async {
+            //                     for analysis in analysises  do
+            //                         do! save_pattern_order analysis.Order
+            //                         do! signal_via_telegram analysis.Order
+            //                 } 
+            //             ) 
+            //     })
+            //     |> Async.Parallel 
+            //     |> ignore
+        // }
 
 
